@@ -23,13 +23,78 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
+    addViewsWithCode()
     self.initializePlayer()
+  }
+  
+  func addViewsWithCode(){
+    addPlayPauseButton()
+    addTimeLabel()
+    addProgressSlider()
+  }
+  
+  func addPlayPauseButton(){
+    let button = UIButton(type: .custom)
+    button.translatesAutoresizingMaskIntoConstraints = false
+    
+    self.view.addSubview(button)
+    
+    button.setImage(UIImage(named: "button_play"), for: .normal)
+    button.setImage(UIImage(named: "button_pause"), for: .selected)
+    
+    button.addTarget(self, action: #selector(touchUpPlayPauseButton(_:)), for: .touchUpInside)
+    
+    NSLayoutConstraint.activate([
+      button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+      .init(item: button, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 0.8, constant: 0),
+      button.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5),
+      button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 1)
+    ])
+    
+    self.playPauseButton = button
+  }
+  
+  func addTimeLabel(){
+    let timeLabel: UILabel = UILabel()
+    timeLabel.translatesAutoresizingMaskIntoConstraints = false
+    self.view.addSubview(timeLabel)
+    
+    timeLabel.textColor = .black
+    timeLabel.textAlignment = .center
+    timeLabel.font = .preferredFont(forTextStyle: .headline)
+    
+    NSLayoutConstraint.activate([
+      timeLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+      timeLabel.topAnchor.constraint(equalTo: self.playPauseButton.bottomAnchor, constant: 8)
+    ])
+    
+    self.timeLabel = timeLabel
+    self.updateTimeLabelText(time: 0)
+  }
+  
+  func addProgressSlider(){
+    let slider: UISlider = UISlider()
+    slider.translatesAutoresizingMaskIntoConstraints = false
+    self.view.addSubview(slider)
+    
+    slider.minimumTrackTintColor = .red
+    slider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+    
+    let safeAreaLayoutGuide = self.view.safeAreaLayoutGuide
+    
+    NSLayoutConstraint.activate([
+      slider.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+      slider.topAnchor.constraint(equalTo: self.timeLabel.bottomAnchor, constant: 8),
+      slider.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+      slider.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
+    ])
+    
+    self.progressSlider = slider
   }
   
   //MARK: - Methods
   //MARK: - Custom Method
   func initializePlayer(){
-    NSLayoutConstraint.activate(<#T##constraints: [NSLayoutConstraint]##[NSLayoutConstraint]#>)
     guard let soundAsset: NSDataAsset = NSDataAsset(name: "sound") else {
       print("음원 파일 에셋을 가져올 수 없습니다.")
       return

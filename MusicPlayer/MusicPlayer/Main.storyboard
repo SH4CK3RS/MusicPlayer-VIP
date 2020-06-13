@@ -15,50 +15,15 @@
                     <view key="view" contentMode="scaleToFill" id="6pP-2a-ENt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3J4-m6-155">
-                                <rect key="frame" x="114" y="179" width="187" height="189"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="button_play"/>
-                                <state key="selected" image="button_pause"/>
-                                <connections>
-                                    <action selector="touchUpPlayPauseButton:" destination="Yg9-OE-W3i" eventType="touchUpInside" id="ms8-Ej-z71"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nan-Uf-iXt">
-                                <rect key="frame" x="169" y="376" width="76" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="wOo-jd-3LP">
-                                <rect key="frame" x="18" y="433" width="378" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="minimumTrackTintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="sliderValueChanged:" destination="Yg9-OE-W3i" eventType="valueChanged" id="t7v-YY-13q"/>
-                                </connections>
-                            </slider>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="T2s-Dj-gZj"/>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="playPauseButton" destination="3J4-m6-155" id="IXT-IV-i3T"/>
-                        <outlet property="progressSlider" destination="wOo-jd-3LP" id="WPm-uP-e5H"/>
-                        <outlet property="timeLabel" destination="Nan-Uf-iXt" id="5j5-p8-vlI"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vhI-nT-As5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="169.56521739130437" y="162.72321428571428"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="button_pause" width="185" height="185"/>
-        <image name="button_play" width="187" height="189"/>
-    </resources>
 </document>
