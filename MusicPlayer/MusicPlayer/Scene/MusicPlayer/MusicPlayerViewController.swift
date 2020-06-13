@@ -10,10 +10,12 @@ import UIKit
 import AVFoundation
 
 protocol MusicPlayerDisplayLogic: class{
+  func displayInitializePlayer(viewModel: MusicPlayer.InitializePlayer.ViewModel)
   func displayUdateInfo(viewModel: MusicPlayer.UpdateInfo.ViewModel)
+  func displayError(error: MusicPlayer.CommonError, usecase: MusicPlayer.UseCases)
 }
 
-class MusicPlayerViewController: UIViewController, MusicPlayerDisplayLogic {
+class MusicPlayerViewController: UIViewController {
   var interactor: MusicPlayerBusinessLogic?
   var router: (NSObjectProtocol & MusicPlayerRoutingLogic & MusicPlayerDataPassing)?
   
@@ -81,22 +83,7 @@ class MusicPlayerViewController: UIViewController, MusicPlayerDisplayLogic {
   //MARK: - Methods
   //MARK: - Custom Method
   func initializePlayer(){
-    guard let soundAsset: NSDataAsset = NSDataAsset(name: "sound") else {
-      print("음원 파일 에셋을 가져올 수 없습니다.")
-      return
-    }
-    
-    do{
-      try self.player = AVAudioPlayer(data: soundAsset.data)
-      self.player.delegate = self
-    }catch let error as NSError{
-      print("플레이어 초기화 실패")
-      print("코드 : \(error.code), 메시지 : \(error.localizedDescription)")
-    }
-    
-    self.progressSlider.maximumValue = Float(self.player.duration)
-    self.progressSlider.minimumValue = 0
-    self.progressSlider.value = Float(self.player.currentTime)
+    self.interactor?.initializePlayer()
   }
   
   func updateTimeLabelText(time: TimeInterval){
@@ -104,17 +91,12 @@ class MusicPlayerViewController: UIViewController, MusicPlayerDisplayLogic {
     self.interactor?.updateInfo(request: request)
   }
   
-  func displayUdateInfo(viewModel: MusicPlayer.UpdateInfo.ViewModel) {
-    self.timeLabel.text = viewModel.timeText
-  }
-  
-  func makeAndFireTimer(){
+  func makeTimer(){
     self.timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true, block: { [unowned self] (timer: Timer) in
       if self.progressSlider.isTracking { return }
       self.updateTimeLabelText(time: self.player.currentTime)
       self.progressSlider.value = Float(self.player.currentTime)
     })
-    self.timer.fire()
   }
   
   func invalidateTImer(){
@@ -127,7 +109,7 @@ class MusicPlayerViewController: UIViewController, MusicPlayerDisplayLogic {
     
     if sender.isSelected{
       self.player?.play()
-      self.makeAndFireTimer()
+      self.makeTimer()
     }else{
       self.player?.pause()
       self.invalidateTImer()
@@ -137,7 +119,39 @@ class MusicPlayerViewController: UIViewController, MusicPlayerDisplayLogic {
   @IBAction func sliderValueChanged(_ sender: UISlider){
     self.updateTimeLabelText(time: TimeInterval(sender.value))
     if sender.isTracking { return }
-    self.player.currentTime = TimeInterval(sender.value)
+    self.player?.currentTime = TimeInterval(sender.value)
+  }
+  
+}
+
+extension MusicPlayerViewController: MusicPlayerDisplayLogic{
+  func displayInitializePlayer(viewModel: MusicPlayer.InitializePlayer.ViewModel) {
+    self.player = viewModel.player
+    self.player.delegate = self
+    
+    self.progressSlider.maximumValue = Float(self.player.duration)
+    self.progressSlider.minimumValue = 0
+    self.progressSlider.value = Float(self.player.currentTime)
+  }
+  
+  func displayUdateInfo(viewModel: MusicPlayer.UpdateInfo.ViewModel) {
+    self.timeLabel.text = viewModel.timeText
+  }
+  
+  func displayError(error: MusicPlayer.CommonError, usecase: MusicPlayer.UseCases) {
+    switch error{
+    case let .initPlayer(message):
+      let alert = UIAlertController(title: "오류", message: message, preferredStyle: .alert)
+      let okAction = UIAlertAction(title: "확인", style: .default, handler: { _ in
+        self.playPauseButton.isEnabled = false
+        self.progressSlider.isEnabled = false
+      })
+      alert.addAction(okAction)
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        self.present(alert, animated: true, completion: nil)
+      }
+      
+    }
   }
 }
 

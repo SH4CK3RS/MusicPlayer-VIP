@@ -7,10 +7,27 @@
 //
 
 import Foundation
+import AVFoundation
 
 enum MusicPlayer{
+  
+  enum CommonError: Error{
+    case initPlayer(String)
+  }
+  
   enum UseCases{
+    case InitializePlayer
     case UpdateInfo
+  }
+  
+  enum InitializePlayer{
+    struct Response{
+      var player: AVAudioPlayer?
+      var error: CommonError?
+    }
+    struct ViewModel{
+      var player: AVAudioPlayer
+    }
   }
   
   enum UpdateInfo{

@@ -9,6 +9,7 @@
 import UIKit
 
 protocol MusicPlayerBusinessLogic{
+  func initializePlayer()
   func updateInfo(request: MusicPlayer.UpdateInfo.Request)
 }
 
@@ -18,7 +19,12 @@ protocol MusicPlayerDataStore{
 
 class MusicPlayerInteractor: MusicPlayerBusinessLogic, MusicPlayerDataStore{
   var presenter: MusicPlayerPresentationLogic?
-  
+  let worker = MusicPlayerWorker()
+  func initializePlayer() {
+    worker.initializePlayer { [weak self] (response) in
+      self?.presenter?.presentInitializePlayer(response: response)
+    }
+  }
   func updateInfo(request: MusicPlayer.UpdateInfo.Request) {
     let time = request.time
     let minute: Int = Int(time / 60)
