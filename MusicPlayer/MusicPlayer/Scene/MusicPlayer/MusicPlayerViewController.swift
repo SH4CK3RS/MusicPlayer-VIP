@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 protocol MusicPlayerDisplayLogic: class{
-  
+  func displayUdateInfo(viewModel: MusicPlayer.UpdateInfo.ViewModel)
 }
 
 class MusicPlayerViewController: UIViewController, MusicPlayerDisplayLogic {
@@ -100,13 +100,12 @@ class MusicPlayerViewController: UIViewController, MusicPlayerDisplayLogic {
   }
   
   func updateTimeLabelText(time: TimeInterval){
-    let minute: Int = Int(time / 60)
-    let second: Int = Int(time.truncatingRemainder(dividingBy: 60))
-    let milisecond: Int = Int(time.truncatingRemainder(dividingBy: 1) * 100)
-    
-    let timeText: String = String(format: "%02ld:%02ld:%02ld", minute, second, milisecond)
-    
-    self.timeLabel.text = timeText
+    let request = MusicPlayer.UpdateInfo.Request(time: time)
+    self.interactor?.updateInfo(request: request)
+  }
+  
+  func displayUdateInfo(viewModel: MusicPlayer.UpdateInfo.ViewModel) {
+    self.timeLabel.text = viewModel.timeText
   }
   
   func makeAndFireTimer(){

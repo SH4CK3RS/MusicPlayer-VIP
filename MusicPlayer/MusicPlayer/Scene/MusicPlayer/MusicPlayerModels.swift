@@ -10,6 +10,22 @@ import Foundation
 
 enum MusicPlayer{
   enum UseCases{
+    case UpdateInfo
+  }
+  
+  enum UpdateInfo{
+    struct Request{
+      var time: TimeInterval
+    }
     
+    struct Response{
+      var minute: Int
+      var second: Int
+      var milisecond: Int
+    }
+    
+    struct ViewModel{
+      var timeText: String
+    }
   }
 }
