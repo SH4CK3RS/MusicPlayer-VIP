@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="Wr2-sy-ME6">
             <objects>
-                <viewController id="Yg9-OE-W3i" sceneMemberID="viewController">
+                <viewController id="Yg9-OE-W3i" customClass="ViewController" customModule="MusicPlayer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6pP-2a-ENt">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,6 +40,11 @@
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="playPauseButton" destination="3J4-m6-155" id="IXT-IV-i3T"/>
+                        <outlet property="progressSlider" destination="wOo-jd-3LP" id="WPm-uP-e5H"/>
+                        <outlet property="timeLabel" destination="Nan-Uf-iXt" id="5j5-p8-vlI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vhI-nT-As5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
