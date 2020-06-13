@@ -16,13 +16,14 @@ class ViewController: UIViewController {
   var timer: Timer!
   
   //MARK: - IBOutlets
-  @IBOutlet var playPauseButton: UIButton!
-  @IBOutlet var timeLabel: UILabel!
-  @IBOutlet var progressSlider: UISlider!
+  var playPauseButton: UIButton!
+  var timeLabel: UILabel!
+  var progressSlider: UISlider!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = .white
     addViewsWithCode()
     self.initializePlayer()
   }
