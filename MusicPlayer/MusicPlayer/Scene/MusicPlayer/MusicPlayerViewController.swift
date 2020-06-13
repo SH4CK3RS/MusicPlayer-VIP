@@ -104,7 +104,7 @@ class MusicPlayerViewController: UIViewController {
     self.timer = nil
   }
   
-  @IBAction func touchUpPlayPauseButton(_ sender: UIButton){
+  @objc func touchUpPlayPauseButton(_ sender: UIButton){
     sender.isSelected = !sender.isSelected
     
     if sender.isSelected{
@@ -116,7 +116,7 @@ class MusicPlayerViewController: UIViewController {
     }
   }
   
-  @IBAction func sliderValueChanged(_ sender: UISlider){
+  @objc func sliderValueChanged(_ sender: UISlider){
     self.updateTimeLabelText(time: TimeInterval(sender.value))
     if sender.isTracking { return }
     self.player?.currentTime = TimeInterval(sender.value)
