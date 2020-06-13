@@ -9,7 +9,36 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+protocol MusicPlayerDisplayLogic: class{
+  
+}
+
+class MusicPlayerViewController: UIViewController, MusicPlayerDisplayLogic {
+  var interactor: MusicPlayerBusinessLogic?
+  var router: (NSObjectProtocol & MusicPlayerRoutingLogic & MusicPlayerDataPassing)?
+  
+  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    setup()
+  }
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    setup()
+  }
+  
+  func setup(){
+    let viewController = self
+    let interactor = MusicPlayerInteractor()
+    let presenter = MusicPlayerPresenter()
+    let router = MusicPlayerRouter()
+    viewController.interactor = interactor
+    viewController.router = router
+    interactor.presenter = presenter
+    presenter.viewController = viewController
+    router.viewController = viewController
+    router.dataStore = interactor
+  }
   
   //MARK: - Properties
   var player: AVAudioPlayer!
@@ -114,7 +143,7 @@ class ViewController: UIViewController {
 }
 
 //MARK: - UI
-extension ViewController{
+extension MusicPlayerViewController{
   func prepareViews(){
     preparePlayPauseButton()
     prepareTimeLabel()
@@ -154,7 +183,7 @@ extension ViewController{
 }
 
 //MARK: - AutioPlayerDelegate
-extension ViewController: AVAudioPlayerDelegate{
+extension MusicPlayerViewController: AVAudioPlayerDelegate{
   func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
     guard let error: Error = error else {
       print("오디오 플레이어 디코드 에러 발생")
