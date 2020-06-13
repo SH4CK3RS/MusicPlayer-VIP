@@ -11,7 +11,7 @@ import AVFoundation
 
 class MusicPlayerWorker{
   func initializePlayer(completion: @escaping (MusicPlayer.InitializePlayer.Response) -> Void){
-    guard let soundAsset: NSDataAsset = NSDataAsset(name: "sound2") else {
+    guard let soundAsset: NSDataAsset = NSDataAsset(name: "sound") else {
       let initError = MusicPlayer.CommonError.initPlayer("음원 파일 에셋을 가져올 수 없습니다.")
       let response = MusicPlayer.InitializePlayer.Response(error: initError)
       completion(response)
